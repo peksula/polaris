@@ -1,0 +1,11 @@
+{
+  "name": "polaris",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/peksula/polaris.git",
+  "author": "Pekka Tukiainen <pekka.t.tukiainen@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^1.13.1"
+  }
+}
