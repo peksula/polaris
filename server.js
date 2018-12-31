@@ -1,11 +1,20 @@
-// Require the framework and instantiate it
-const fastify = require('fastify')() // require and instantiate Fastify web framework
+/**
+ * Polaris server.
+ */
 
-// Declare a route
+const fastify = require('fastify')() // require and instantiate Fastify web framework
+var Extractor = require('./extractor');
+
 fastify.get('/', async (request, reply) => {
     return { hello: 'world' }
 })
 
+fastify.post('/api/route', async (request, reply) => {
+    let geojson = request.body;
+    const extractor = new Extractor();
+    extractor.extractPoints(geojson);
+    reply.code(200).send();
+})
 
 const start = async () => {
     try {
