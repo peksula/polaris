@@ -9,7 +9,7 @@ fastify.get('/', async (request, reply) => {
     return { hello: 'world' }
 })
 
-fastify.post('/api/route', async (request, reply) => {
+fastify.post('/api/linestring', async (request, reply) => {
     let geojson = request.body;
     const extractor = new Extractor();
     extractor.extractPoints(geojson);
@@ -19,9 +19,9 @@ fastify.post('/api/route', async (request, reply) => {
 const start = async () => {
     try {
         await fastify.listen(3000);
-        fastify.log.info(`server listening on ${fastify.server.address().port}`);
+        console.log(`server listening on ${fastify.server.address().port}`);
     } catch (err) {
-        fastify.log.error(err);
+        console.log(err);
         process.exit(1);
     }
 }
