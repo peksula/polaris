@@ -3,13 +3,13 @@
  */
 
 var assert = require('assert');
-var Extractor = require('../extractor');
+var MultiLineStringParser = require('../multi-line-string-parser');
 
-describe('Extractor', function() {
+describe('MultiLineStringParser', function() {
 
-    let extractor = Extractor;
+    let parser = MultiLineStringParser;
 
-    const geoJsonLineString = 
+    const geoJsonMultiLineString = 
     {
         "type": "FeatureCollection",
         "features": [
@@ -17,8 +17,8 @@ describe('Extractor', function() {
             "type": "Feature",
             "properties": {},
             "geometry": {
-              "type": "LineString",
-              "coordinates": [
+              "type": "MultiLineString",
+              "coordinates": [ [
                 [
                   0.3515625,
                   48.86471476180277
@@ -27,23 +27,28 @@ describe('Extractor', function() {
                   0.17578125,
                   48.10743118848039
                 ]
-              ]
+              ] ]
             }
           }
         ]
       };
 
     beforeEach(function() {
-        extractor = new Extractor();
+        parser = new MultiLineStringParser();
     });
 
     describe('extractPoints()', function() {
-        it('should return false with empty input', function() {
-            assert.equal(false, extractor.extractPoints());
+        it('should return empty array with empty input', function() {
+            assert.strictEqual(0, parser.extractPoints().length);
         });
 
-        it('should return true with non-empty input', function() {
-            assert.equal(true, extractor.extractPoints(geoJsonLineString));
+        it('should parse points correctly from valid multi line string object', function() {
+            points = parser.extractPoints(geoJsonMultiLineString);
+            assert.strictEqual(2, points.length);
+            assert.ok(points[0].includes(0.3515625));
+            assert.ok(points[0].includes(48.86471476180277));
+            assert.ok(points[1].includes(0.17578125));
+            assert.ok(points[1].includes(48.10743118848039));
         });
     });
 });

@@ -3,16 +3,16 @@
  */
 
 const fastify = require('fastify')() // require and instantiate Fastify web framework
-var Extractor = require('./extractor');
+var MultiLineStringParser = require('./multi-line-string-parser');
 
 fastify.get('/', async (request, reply) => {
     return { hello: 'world' }
 })
 
-fastify.post('/api/linestring', async (request, reply) => {
-    let geojson = request.body;
-    const extractor = new Extractor();
-    extractor.extractPoints(geojson);
+fastify.post('/api/multilinestring', async (request, reply) => {
+    let geojson = JSON.parse(request.body);
+    const parser = new MultiLineStringParser();
+    const points = parser.extractPoints(geojson);
     reply.code(200).send();
 })
 
