@@ -1,11 +1,11 @@
 /**
- * Extract GeoJSON Points from incoming GeoJSON multi line string input.
+ * Extract GeoJSON Points from incoming GeoJSON input.
  */
-class MultiLineStringParser {
+class Parser {
     constructor() {
     }
 
-    extractPoints(geojson) {
+    parseMultiLineString(geojson) {
         let points = [];
         if (geojson && geojson.features) {
             geojson.features.forEach((feature) => {
@@ -21,4 +21,4 @@ class MultiLineStringParser {
         return points;
     }
 }
-module.exports = MultiLineStringParser;
+module.exports = Parser;

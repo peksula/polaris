@@ -6,12 +6,13 @@
   "author": "Pekka Tukiainen <pekka.t.tukiainen@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "fastify": "^1.13.1"
+    "fastify": "^1.13.1",
+    "jsonschema": "^1.2.4"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "test": "mocha"
-  }  
+    "test": "mocha *.spec.js"
+  }
 }

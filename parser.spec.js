@@ -1,13 +1,13 @@
 /**
- * Polaris unit tests.
+ * Parser unit tests.
  */
 
 var assert = require('assert');
-var MultiLineStringParser = require('../multi-line-string-parser');
+var Parser = require('./parser');
 
-describe('MultiLineStringParser', function() {
+describe('Parser', function() {
 
-    let parser = MultiLineStringParser;
+    let parser = Parser;
 
     const geoJsonMultiLineString = 
     {
@@ -34,16 +34,16 @@ describe('MultiLineStringParser', function() {
       };
 
     beforeEach(function() {
-        parser = new MultiLineStringParser();
+        parser = new Parser();
     });
 
-    describe('extractPoints()', function() {
+    describe('parseMultiLineString()', function() {
         it('should return empty array with empty input', function() {
-            assert.strictEqual(0, parser.extractPoints().length);
+            assert.strictEqual(0, parser.parseMultiLineString().length);
         });
 
         it('should parse points correctly from valid multi line string object', function() {
-            points = parser.extractPoints(geoJsonMultiLineString);
+            points = parser.parseMultiLineString(geoJsonMultiLineString);
             assert.strictEqual(2, points.length);
             assert.ok(points[0].includes(0.3515625));
             assert.ok(points[0].includes(48.86471476180277));
