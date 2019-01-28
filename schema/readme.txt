@@ -1,0 +1,1 @@
+Schema files implemented by YagaJs, referenced from https://github.com/yagajs/geojson-schema
