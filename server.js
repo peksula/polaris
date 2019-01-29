@@ -9,21 +9,15 @@ var Validator = require('./validator');
 const httpSuccess = 200;
 const httpInvalidRequest = 400;
 
-fastify.get('/', async (request, reply) => {
-    return { hello: 'world' }
-})
-
 fastify.post('/api/multilinestring', async (request, reply) => {
-    let geojson = request.body;
+    let geojson = JSON.parse(request.body);
     const validator = new Validator();
-    if (validator.validateMultiLineString(geojson)) {
-        console.log("json valid")
+    if (validator.validateFeatureCollection(geojson)) {
         const parser = new Parser();
-        const points = parser.extractPoints(JSON.parse(geojson));
-        reply.code(httpSuccess).send();
+        const points = parser.parseMultiLineString(geojson);
+        reply.code(httpSuccess).send(JSON.stringify(points));
         return;
     }
-    console.log("json invalid")
     reply.code(httpInvalidRequest).send();
 })
 

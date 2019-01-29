@@ -2,7 +2,9 @@
  * Parser unit tests.
  */
 
-var assert = require('assert');
+var chai = require('chai');
+var expect = chai.expect;
+
 var Parser = require('./parser');
 
 describe('Parser', function() {
@@ -37,18 +39,18 @@ describe('Parser', function() {
         parser = new Parser();
     });
 
-    describe('parseMultiLineString()', function() {
+    describe('parseMultiLineString', function() {
         it('should return empty array with empty input', function() {
-            assert.strictEqual(0, parser.parseMultiLineString().length);
+            expect(parser.parseMultiLineString("")).to.have.lengthOf(0);
         });
 
         it('should parse points correctly from valid multi line string object', function() {
             points = parser.parseMultiLineString(geoJsonMultiLineString);
-            assert.strictEqual(2, points.length);
-            assert.ok(points[0].includes(0.3515625));
-            assert.ok(points[0].includes(48.86471476180277));
-            assert.ok(points[1].includes(0.17578125));
-            assert.ok(points[1].includes(48.10743118848039));
+            expect(points).to.have.lengthOf(2);
+            expect(points[0].includes(0.3515625)).to.be.true;
+            expect(points[0].includes(48.86471476180277)).to.be.true;
+            expect(points[1].includes(0.17578125)).to.be.true;
+            expect(points[1].includes(48.10743118848039)).to.be.true;
         });
     });
 });

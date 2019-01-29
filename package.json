@@ -7,9 +7,10 @@
   "license": "MIT",
   "dependencies": {
     "fastify": "^1.13.1",
-    "jsonschema": "^1.2.4"
+    "geojson-validation": "^0.2.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "mocha": "^5.2.0"
   },
   "scripts": {
