@@ -8,17 +8,24 @@ var Validator = require('./validator');
 
 const httpSuccess = 200;
 const httpInvalidRequest = 400;
+const parser = new Parser();
+const validator = new Validator();
 
-fastify.post('/api/multilinestring', async (request, reply) => {
-    let geojson = JSON.parse(request.body);
-    const validator = new Validator();
-    if (validator.validateFeatureCollection(geojson)) {
-        const parser = new Parser();
+fastify.route({
+    method: 'POST',
+    url: '/api/geojson',
+    beforeHandler: function (request, reply, done) {
+        let geojson = JSON.parse(request.body);
+        if(!validator.validateFeatureCollection(geojson)) {
+            reply.code(httpInvalidRequest).send();
+        }
+        done()
+    },
+    handler: function (request, reply) {
+        let geojson = JSON.parse(request.body);
         const points = parser.parseMultiLineString(geojson);
         reply.code(httpSuccess).send(JSON.stringify(points));
-        return;
     }
-    reply.code(httpInvalidRequest).send();
 })
 
 const start = async () => {
