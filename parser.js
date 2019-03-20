@@ -1,30 +1,32 @@
-    /**
-     * Returns the coordinates of a multiline string object.
-     * 
-     * @param {*} feature GeoJSON feature object with multiline string geometry type.
-     */
-    parseMultiLineString = (feature) => {
-        let points = [];
-        feature.geometry.coordinates.forEach((lineString) => {
-            lineString.forEach((coordinate) => {
-                points = [...points, coordinate];
-            });
-        });
-        return points;
-    }
+var Coordinate = require('./coordinate');
 
-    /**
-     * Returns the coordinates of a line string object.
-     * 
-     * @param {*} feature GeoJSON feature object with line string geometry type.
-     */
-    parseLineString = (feature) => {
-        let points = [];
-        feature.geometry.coordinates.forEach((coordinate) => {
-            points = [...points, coordinate];
+/**
+ * Returns the coordinates of a multiline string object.
+ * 
+ * @param {*} feature GeoJSON feature object with multiline string geometry type.
+ */
+parseMultiLineString = (feature) => {
+    let coordinates = [];
+    feature.geometry.coordinates.forEach((lineString) => {
+        lineString.forEach((coordinate) => {
+            coordinates = [...coordinates, new Coordinate(coordinate[0], coordinate[1])];
         });
-        return points;
-    }
+    });
+    return coordinates;
+}
+
+/**
+ * Returns the coordinates of a line string object.
+ * 
+ * @param {*} feature GeoJSON feature object with line string geometry type.
+ */
+parseLineString = (feature) => {
+    let coordinates = [];
+    feature.geometry.coordinates.forEach((coordinate) => {
+        coordinates = [...coordinates, new Coordinate(coordinate[0], coordinate[1])];
+    });
+    return coordinates;
+}
 
 /**
  * Extract GeoJSON structures from the incoming GeoJSON input.
@@ -40,22 +42,22 @@ class GeoJsonParser {
      * 
      * @param {*} geojson GeoJSON object.
      */
-    parsePoints(geojson) {
-        let points = [];
+    parseCoordinates(geojson) {
+        let coordinates = [];
         if (geojson && geojson.features) {
             geojson.features.forEach((feature) => {
                 const featureSwitch = {
                     'MultiLineString': (feature) => {
-                        points = parseMultiLineString(feature);
+                        coordinates = parseMultiLineString(feature);
                     },
                     'LineString': (feature) => {
-                        points = parseLineString(feature)
+                        coordinates = parseLineString(feature)
                     }
                 };
                 return featureSwitch[feature.geometry.type](feature);
             });
         }
-        return points;
+        return coordinates;
     }
 
 }

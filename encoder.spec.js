@@ -24,8 +24,6 @@ describe('GeoJsonEncoder', function() {
             ];
 
             multiPolygon = encoder.encodeMultiPolygon(coordinates, 16);
-            //console.log(JSON.stringify(multiPolygon));
-            // console.log(encoder.printUrl(coordinates, 16));
             expect(multiPolygon.type).to.equal("Feature");
             expect(multiPolygon.geometry.type).to.equal("MultiPolygon");
             expect(multiPolygon.geometry.coordinates).to.have.lengthOf(2);

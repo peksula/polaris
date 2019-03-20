@@ -58,29 +58,29 @@ describe('GeoJsonParser', function() {
         parser = new GeoJsonParser();
     });
 
-    describe('parsePoints', function() {
+    describe('parseCoordinates', function() {
         it('should return empty array with empty input', function() {
-            expect(parser.parsePoints("")).to.have.lengthOf(0);
+            expect(parser.parseCoordinates("")).to.have.lengthOf(0);
         });
 
-        it('should parse points correctly from valid multi line string object', function() {
-            points = parser.parsePoints(geoJsonMultiLineString);
-            expect(points).to.have.lengthOf(2);
-            expect(points[0].includes(0.3515625)).to.be.true;
-            expect(points[0].includes(48.86471476180277)).to.be.true;
-            expect(points[1].includes(0.17578125)).to.be.true;
-            expect(points[1].includes(48.10743118848039)).to.be.true;
+        it('should parse coordinates correctly from valid multi line string object', function() {
+            coordinates = parser.parseCoordinates(geoJsonMultiLineString);
+            expect(coordinates).to.have.lengthOf(2);
+            expect(coordinates[0].lon).to.equal(0.3515625);
+            expect(coordinates[0].lat).to.equal(48.86471476180277);
+            expect(coordinates[1].lon).to.equal(0.17578125);
+            expect(coordinates[1].lat).to.equal(48.10743118848039);
         });
     });
 
-    it('should parse points correctly from valid line string object', function() {
-        points = parser.parsePoints(geoJsonLineString);
-        expect(points).to.have.lengthOf(3);
-        expect(points[0].includes(25.06240200996399)).to.be.true;
-        expect(points[0].includes(60.184268832206726)).to.be.true;
-        expect(points[1].includes(25.06240200996398)).to.be.true;
-        expect(points[1].includes(60.184268832206725)).to.be.true;
-        expect(points[2].includes(25.06240200996397)).to.be.true;
-        expect(points[2].includes(60.184268832206724)).to.be.true;
+    it('should parse coordinates correctly from valid line string object', function() {
+        coordinates = parser.parseCoordinates(geoJsonLineString);
+        expect(coordinates).to.have.lengthOf(3);
+        expect(coordinates[0].lon).to.equal(25.06240200996399);
+        expect(coordinates[0].lat).to.equal(60.184268832206726);
+        expect(coordinates[1].lon).to.equal(25.06240200996398);
+        expect(coordinates[1].lat).to.equal(60.184268832206725);
+        expect(coordinates[2].lon).to.equal(25.06240200996397);
+        expect(coordinates[2].lat).to.equal(60.184268832206724);
     });
 });
