@@ -20,7 +20,7 @@ describe('GeoJsonParser', function() {
                 "type": "MultiLineString",
                 "coordinates": [[
                     [0.3515625, 48.86471476180277],
-                    [0.17578125, 48.10743118848039]
+                    ["0.17578125", "48.10743118848039"]
                 ]]
             }
         }]
@@ -40,7 +40,7 @@ describe('GeoJsonParser', function() {
                 "type": "LineString",
                 "coordinates": [
                     [25.06240200996399, 60.184268832206726],
-                    [25.06240200996398, 60.184268832206725],
+                    ["25.06240200996398", "60.184268832206725"],
                     [25.06240200996397, 60.184268832206724]
                 ]
             }
@@ -66,21 +66,21 @@ describe('GeoJsonParser', function() {
         it('should parse coordinates correctly from valid multi line string object', function() {
             coordinates = parser.parseCoordinates(geoJsonMultiLineString);
             expect(coordinates).to.have.lengthOf(2);
-            expect(coordinates[0].lon).to.equal(0.3515625);
+            expect(coordinates[0].lon).to.deep.equal(0.3515625);
             expect(coordinates[0].lat).to.equal(48.86471476180277);
             expect(coordinates[1].lon).to.equal(0.17578125);
             expect(coordinates[1].lat).to.equal(48.10743118848039);
         });
-    });
 
-    it('should parse coordinates correctly from valid line string object', function() {
-        coordinates = parser.parseCoordinates(geoJsonLineString);
-        expect(coordinates).to.have.lengthOf(3);
-        expect(coordinates[0].lon).to.equal(25.06240200996399);
-        expect(coordinates[0].lat).to.equal(60.184268832206726);
-        expect(coordinates[1].lon).to.equal(25.06240200996398);
-        expect(coordinates[1].lat).to.equal(60.184268832206725);
-        expect(coordinates[2].lon).to.equal(25.06240200996397);
-        expect(coordinates[2].lat).to.equal(60.184268832206724);
+        it('should parse coordinates correctly from valid line string object', function() {
+            coordinates = parser.parseCoordinates(geoJsonLineString);
+            expect(coordinates).to.have.lengthOf(3);
+            expect(coordinates[0].lon).to.equal(25.06240200996399);
+            expect(coordinates[0].lat).to.equal(60.184268832206726);
+            expect(coordinates[1].lon).to.equal(25.06240200996398);
+            expect(coordinates[1].lat).to.equal(60.184268832206725);
+            expect(coordinates[2].lon).to.equal(25.06240200996397);
+            expect(coordinates[2].lat).to.equal(60.184268832206724);
+        });
     });
 });

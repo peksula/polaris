@@ -4,8 +4,8 @@ var Coordinate = require('./coordinate');
  * Returns the longitudal tile index with given zoom.
  * https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#ECMAScript_.28JavaScript.2FActionScript.2C_etc..29
  */
-lon2tile = (lon,zoom) => {
-    return (Math.floor((lon+180)/360*Math.pow(2,zoom))); 
+lon2tile = (lon, zoom) => {
+    return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom)));
 }
 
 /**
@@ -13,7 +13,7 @@ lon2tile = (lon,zoom) => {
  * https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#ECMAScript_.28JavaScript.2FActionScript.2C_etc..29
  */
 lat2tile = (lat, zoom) => {
-    return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
+    return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) /2 * Math.pow(2, zoom)));
 }
 
 /**
@@ -45,7 +45,7 @@ class GeoJsonEncoder {
      */
     encodeMultiPolygon(coordinates, zoom) {
         let multiPolygon = [];
-        if (coordinates) {
+        if (coordinates && zoom) {
             coordinates.forEach((coordinate) => {
                 // Get the corresponding map tile indexes
                 const longitudalTile = lon2tile(coordinate.lon, zoom);
@@ -71,7 +71,7 @@ class GeoJsonEncoder {
      * @param {*} zoom Zoom level.
      */
     printUrl(coordinates, zoom) {
-        if (coordinates) {
+        if (coordinates && zoom) {
             coordinates.forEach((coordinate) => {
                 const longitudalTile = lon2tile(coordinate.lon, zoom);
                 const latitudalTile = lat2tile(coordinate.lat, zoom);

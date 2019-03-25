@@ -13,10 +13,12 @@ var Validator = require('./validator');
 
 const httpSuccess = 200;
 const httpInvalidRequest = 400;
+const httpInternalServerError = 500;
 const encoder = new GeoJsonEncoder();
 const parser = new GeoJsonParser();
 const tcxConverter = new TcxConverter();
 const validator = new Validator();
+const zoomFactor = 16;
 
 fastify.route({
     method: 'POST',
@@ -31,7 +33,7 @@ fastify.route({
     handler: function (request, reply) {
         let geoJson = JSON.parse(request.body);
         const coordinates = parser.parseCoordinates(geoJson);
-        const feature = encoder.encodeMultiPolygon(coordinates);
+        const feature = encoder.encodeMultiPolygon(coordinates, zoomFactor);
         reply.code(httpSuccess).send(JSON.stringify(feature));
     }
 })
@@ -43,10 +45,15 @@ fastify.route({
         let tcx = request.body;
         let geoJson = tcxConverter.convertToJson(tcx);
         const coordinates = parser.parseCoordinates(geoJson);
-        reply.code(httpSuccess).send(JSON.stringify(coordinates));
+        const feature = encoder.encodeMultiPolygon(coordinates, zoomFactor);
+        reply.code(httpSuccess).send(JSON.stringify(feature));
     }
 })
 
+fastify.setErrorHandler(function (error, _request, reply) {
+    console.log(`error detected ${error}`);
+    reply.code(httpInternalServerError).send(error);
+})
 
 const start = async () => {
     try {

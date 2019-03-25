@@ -9,7 +9,7 @@ parseMultiLineString = (feature) => {
     let coordinates = [];
     feature.geometry.coordinates.forEach((lineString) => {
         lineString.forEach((coordinate) => {
-            coordinates = [...coordinates, new Coordinate(coordinate[0], coordinate[1])];
+            coordinates = [...coordinates, new Coordinate(Number(coordinate[0]), Number(coordinate[1]))];
         });
     });
     return coordinates;
@@ -23,7 +23,7 @@ parseMultiLineString = (feature) => {
 parseLineString = (feature) => {
     let coordinates = [];
     feature.geometry.coordinates.forEach((coordinate) => {
-        coordinates = [...coordinates, new Coordinate(coordinate[0], coordinate[1])];
+        coordinates = [...coordinates, new Coordinate(Number(coordinate[0]), Number(coordinate[1]))];
     });
     return coordinates;
 }
@@ -52,7 +52,11 @@ class GeoJsonParser {
                     },
                     'LineString': (feature) => {
                         coordinates = parseLineString(feature)
+                    },
+                    'Point': (_feature) => {
+                        // not supported
                     }
+
                 };
                 return featureSwitch[feature.geometry.type](feature);
             });
