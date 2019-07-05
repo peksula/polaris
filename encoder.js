@@ -44,7 +44,7 @@ class GeoJsonEncoder {
     /**
      */
     encodeMultiPolygon(coordinates, zoom) {
-        let multiPolygon = [];
+        let multiPolygon = new Set();
         if (coordinates && zoom) {
             coordinates.forEach((coordinate) => {
                 // Get the corresponding map tile indexes
@@ -56,12 +56,13 @@ class GeoJsonEncoder {
                 const sw = tile2point(longitudalTile, latitudalTile + 1, zoom);
                 const se = tile2point(longitudalTile + 1, latitudalTile + 1, zoom);
                 // const center = tile2point(longitudalTile + 0.5, latitudalTile + 0.5, zoom);
-                multiPolygon = [...multiPolygon,
-                    [[nw.lon, nw.lat], [ne.lon, ne.lat], [se.lon, se.lat], [sw.lon, sw.lat]]
-                ];
+                const tileCoordinates = [[nw.lon, nw.lat], [ne.lon, ne.lat], [se.lon, se.lat], [sw.lon, sw.lat]];
+                if (!multiPolygon.has(tileCoordinates)) { // does not work, compares objects
+                    multiPolygon.add(tileCoordinates);
+                }
             });
         }
-        return this._envelope(multiPolygon, "MultiPolygon");
+        return this._envelope(Array.from(multiPolygon), "MultiPolygon");
     }
 
     /**

@@ -42,5 +42,25 @@ describe('GeoJsonEncoder', function() {
             ];
             expect(multiPolygon.geometry.coordinates).to.deep.equal(expected);
         });
+
+        it('does not output duplicate multi polygons', function() {
+            coordinates = [
+                new Coordinate(25.06240200996397, 60.184268832206724),
+                new Coordinate(25.06240200996397, 60.184268832206724)
+            ];
+
+            multiPolygon = encoder.encodeMultiPolygon(coordinates, 16);
+            expect(multiPolygon.type).to.equal("Feature");
+            expect(multiPolygon.geometry.type).to.equal("MultiPolygon");
+            expect(multiPolygon.geometry.coordinates).to.have.lengthOf(1);
+            const expected = [
+                [
+                    [25.059814453125,60.18523283150749],
+                    [25.0653076171875,60.18523283150749],
+                    [25.0653076171875,60.182501529929304],
+                    [25.059814453125,60.182501529929304]]
+            ];
+            expect(multiPolygon.geometry.coordinates).to.deep.equal(expected);
+        });        
     });
 });
